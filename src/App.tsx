@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import SpeechRecognition from "react-speech-recognition";
 
-const App: React.FC = () => {
+const propTypes = {
+  // Props injected by SpeechRecognition
+  transcript: PropTypes.string,
+  resetTranscript: PropTypes.func,
+  browserSupportsSpeechRecognition: PropTypes.bool
+};
+
+const Dictaphone = ({ transcript, resetTranscript, browserSupportsSpeechRecognition }) => {
+  if (!browserSupportsSpeechRecognition) {
+    return null;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <button onClick={resetTranscript}>Reset</button>
+      <span>{transcript}</span>
     </div>
   );
-}
+};
 
-export default App;
+Dictaphone.propTypes = propTypes;
+
+export default SpeechRecognition(Dictaphone);
